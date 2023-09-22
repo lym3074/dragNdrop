@@ -5,7 +5,7 @@
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
-    "ios": "expo run:ios",
+    "ios": "npx react-native run-ios",
     "web": "expo start --web"
   },
   "dependencies": {
