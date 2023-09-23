@@ -105,12 +105,12 @@ export default function App() {
     onPanResponderRelease: (_, {dy}) => {
       if(dy < -250 || dy > 250) {
         Animated.sequence([Animated.parallel([onDropOpacity, onDropScale]),
-      Animated.timing(position, {
-        toValue: 0,
-        duration: 50,
-        easing: Easing.linear,
-        useNativeDriver: true
-      })
+        Animated.timing(position, {
+          toValue: 0,
+          duration: 50,
+          easing: Easing.linear,
+          useNativeDriver: true
+        })
       ]).start()
         
       } else {
@@ -129,7 +129,7 @@ export default function App() {
       <Center>
         <IconCard 
           {...panResponer.panHandlers}
-          style={{opacity: opacity,transform: [{scale}, ...position.getTranslateTransform()]}}
+          style={{opacity: opacity,transform: [...position.getTranslateTransform(),{scale}]}}
         >
           <Ionicons name="beer" color={GREY} size={66} />
         </IconCard>
