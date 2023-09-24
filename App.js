@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import {Ionicons} from'@expo/vector-icons';
 import { Animated, Easing, PanResponder, View } from 'react-native';
+import icons from './icons';
 
 const BLACK_COLOR = "#1e272e";
 const GREY = "#485460";
@@ -111,7 +112,7 @@ export default function App() {
           easing: Easing.linear,
           useNativeDriver: true
         })
-      ]).start()
+      ]).start(nextIcon)
         
       } else {
         Animated.parallel([onPressOut, goHome]).start();
@@ -119,11 +120,35 @@ export default function App() {
     }
   })).current;
 
+  const appearOpacity = Animated.timing(scale, {
+    toValue: 1,
+    useNativeDriver: true,
+    duration: 50,
+    easing: Easing.linear
+  });
+
+  const appearScale = Animated.timing(opacity, {
+    toValue: 1,
+    useNativeDriver: true,
+    duration: 50,
+    easing: Easing.linear
+  })
+
+  const [index, setIndex] = useState(0);
+  const nextIcon = () => {
+
+    Animated.parallel([appearOpacity, appearScale]).start();
+
+    // Animated.timing(scale, { toValue: 1, useNativeDriver: true, duration: 50, easing: Easing.linear}).start();
+    // Animated.timing(opacity, { toValue: 1, useNativeDriver: true, duration: 50, easing: Easing.linear}).start();
+    setIndex(prev => prev + 1);
+  }
+
   return (
     <Container>
       <Edge>
         <WordContainer style={{transform:[{scale: scaleOne}]}}>
-          <Word color={GREEN}>앎!</Word>
+          <Word color={GREEN}>알아</Word>
         </WordContainer>
       </Edge>
       <Center>
@@ -131,12 +156,12 @@ export default function App() {
           {...panResponer.panHandlers}
           style={{opacity: opacity,transform: [...position.getTranslateTransform(),{scale}]}}
         >
-          <Ionicons name="beer" color={GREY} size={66} />
+          <Ionicons name={icons[index]} color={GREY} size={66} />
         </IconCard>
       </Center>
       <Edge>
         <WordContainer style={{transform:[{scale: scaleTwo}]}}>
-          <Word color={RED}>몲!</Word>
+          <Word color={RED}>몰라</Word>
         </WordContainer>
       </Edge>
     </Container>
